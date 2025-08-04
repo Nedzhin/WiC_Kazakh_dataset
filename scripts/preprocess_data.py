@@ -45,7 +45,8 @@ for idx, row in df.iterrows():
     output.append(entry)
 
 # Write to JSONL file
-with open(base_dir+"../preprocessed_data/wic_kazakh_dataset.jsonl", "w", encoding="utf-8") as f:
+output_path = os.path.join(base_dir, "../processed_data/final_dataset.jsonl")
+with open(output_path, "w", encoding="utf-8") as f:
     for entry in output:
         json.dump(entry, f, ensure_ascii=False)
         f.write("\n")
