@@ -2,17 +2,17 @@
 
 ## Overview
 
-Welcome to the **WiC-Kazakh** dataset, designed to evaluate the contextual understanding of the Kazakh language. This dataset follows the **Word-in-Context (WiC)** task format, inspired by the work of Pilehvar & Camacho-Collados (2019). The goal of this task is to determine whether a target word has the same meaning in two different sentence contexts. Our dataset aims to fill a gap in Kazakh language resources by providing a benchmark for multilingual and Kazakh-specific language models, particularly in low-resource linguistic environments.
+Welcome to the **WiC-Kazakh** dataset, designed to evaluate the contextual understanding of the Kazakh language. This dataset follows the **Word-in-Context (WiC)** task format, inspired by the work of Pilehvar & Camacho-Collados (2019). The goal of this task is to determine whether a target word has the same meaning in two different sentence contexts. My dataset aims to fill a gap in Kazakh language resources by providing a benchmark for multilingual and Kazakh-specific language models, particularly in low-resource linguistic environments.
 
 ## Data Construction
 
 The **WiC-Kazakh** dataset was manually curated to include diverse instances of words used in varying contexts. Here's a breakdown of the data creation process:
 
-1. **Word Selection**: We selected target words commonly used in the Kazakh language. Each word is accompanied by its **part-of-speech tag** (noun, verb, adjective).
+1. **Word Selection**: I selected target words commonly used in the Kazakh language. Each word is accompanied by its **part-of-speech tag** (noun, verb, adjective).
    
-2. **Sentence Collection**: For each word, we collected two example sentences that use the word in different contexts. The goal is to challenge the model to discern whether the word carries the same meaning in both sentences.
+2. **Sentence Collection**: For each word, I collected two example sentences that use the word in different contexts. The goal is to challenge the model to discern whether the word carries the same meaning in both sentences.
 
-3. **Labeling**: We manually labeled the pairs of sentences as either **True** or **False**. If the word's meaning is the same in both contexts, the label is **True**; otherwise, it's **False**.
+3. **Labeling**: I manually labeled the pairs of sentences as either **True** or **False**. If the word's meaning is the same in both contexts, the label is **True**; otherwise, it's **False**.
 
 4. **Positioning Information**: For each word in a sentence, we recorded its **start and end positions** at the character level. This allows for easier tokenization and extraction when training models.
 
@@ -26,7 +26,7 @@ The dataset is organized into several key directories and files:
    
 2. **`processed_data/`**: This directory holds the cleaned and processed version of the dataset, ready for use in training and evaluation tasks.
    
-3. **`scripts/`**: A collection of Python scripts used for preprocessing, data analysis, and model evaluation. These scripts automate many tasks, including text cleaning, feature extraction, and dataset formatting.
+3. **`scripts/`**: A collection of Python scripts used for preprocessing, data analysis, and model evaluation. These scripts automate many tasks, including text cleaning and dataset formatting.
    
 4. **`annotators_results/`**: Contains the results of the manual annotation process. It provides insights into the labeling and adjudication process, helping to ensure consistency and accuracy.
    
@@ -61,3 +61,18 @@ To get started, follow these steps:
 1. **Install dependencies**: Run the following command to install the necessary Python packages:
    ```bash
    pip install -r requirements.txt
+
+2. **Preprocess the data**: Use the scripts in the scripts/ directory to clean and process the raw data. Here's an example command to run the preprocessing script:
+   ```bash
+   python scripts/preprocess_data.py
+
+3. **Train models**: The processed dataset can be used to train and evaluate different language models. The results_evaluation/ directory will contain the results from these evaluations.
+
+4. **Evaluate performance**: After training, evaluate your models' performance on the WiC-Kazakh task using standard metrics like accuracy, F1 score, and Cohen's Kappa.
+
+## Contributing
+
+We encourage contributions to improve the dataset and its utility for the research community. If you'd like to contribute, please fork the repository and submit a pull request. Be sure to follow the project’s coding standards and ensure that your changes are well-documented.
+
+## License
+The WiC-Kazakh dataset is open for research use.
