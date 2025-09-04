@@ -2,68 +2,62 @@
 
 ## Overview
 
-**WiC-Kazakh** is a manually constructed dataset designed to evaluate contextual understanding in the Kazakh language using the **Word-in-Context (WiC)** task format (Pilehvar & Camacho-Collados, 2019). The task involves determining whether a target word carries the same meaning in two different sentence contexts. This dataset aims to provide a benchmark for evaluating the performance of multilingual and Kazakh-specific language models, especially in a low-resource linguistic setting.
+Welcome to the **WiC-Kazakh** dataset, designed to evaluate the contextual understanding of the Kazakh language. This dataset follows the **Word-in-Context (WiC)** task format, inspired by the work of Pilehvar & Camacho-Collados (2019). The goal of this task is to determine whether a target word has the same meaning in two different sentence contexts. Our dataset aims to fill a gap in Kazakh language resources by providing a benchmark for multilingual and Kazakh-specific language models, particularly in low-resource linguistic environments.
 
-Each entry in the dataset consists of:
-- A target **word**,
-- Its **part-of-speech** tag (Noun, Verb, or Adjective),
-- Two **example sentences** where the word appears in slightly different contexts,
-- A **label** indicating whether the meaning of the word is the same in both sentences (`TRUE`) or not (`FALSE`),
-- Character-level **start and end positions** of the word form in each sentence,
-- Metadata such as `idx` and versioning.
+## Data Construction
 
-## Data Collection Process
+The **WiC-Kazakh** dataset was manually curated to include diverse instances of words used in varying contexts. Here's a breakdown of the data creation process:
 
-The dataset was manually compiled over 1–2 weeks, inspired by the original **English WiC dataset** structure. The following steps were followed:
+1. **Word Selection**: We selected target words commonly used in the Kazakh language. Each word is accompanied by its **part-of-speech tag** (noun, verb, adjective).
+   
+2. **Sentence Collection**: For each word, we collected two example sentences that use the word in different contexts. The goal is to challenge the model to discern whether the word carries the same meaning in both sentences.
 
-1. **Target Word Selection**  
-   - Words were chosen using the **Oxford Kazakh Dictionary** and **Sordid.kz**, ensuring common and semantically flexible usage.
+3. **Labeling**: We manually labeled the pairs of sentences as either **True** or **False**. If the word's meaning is the same in both contexts, the label is **True**; otherwise, it's **False**.
 
-2. **Sentence Sourcing**  
-   - Sentences were collected from publicly available and linguistically diverse sources:
-     - [Almaty Corpus](http://web-corpora.net/KazakhCorpus/)
-     - [SketchEngine (Kazakh Corpus)](https://www.sketchengine.eu)
-     - [Kazakh Wikipedia](https://kk.wikipedia.org/)
-     - [Bilim-all.kz](https://bilim-all.kz)
+4. **Positioning Information**: For each word in a sentence, we recorded its **start and end positions** at the character level. This allows for easier tokenization and extraction when training models.
 
-3. **Balancing**  
-   - A total of **506 sentence pairs** were compiled, with roughly equal numbers of `TRUE` and `FALSE` labels.
-   - Most examples involve **Nouns (N)** and **Verbs (V)**, with a smaller portion of **Adjectives (A)** for semantic variety.
+5. **Metadata**: Each entry includes metadata, such as a unique **index (idx)** and version information.
 
-## Preprocessing
+## Dataset Structure
 
-The original dataset was stored in Excel format with the following columns:
-- `word`, `POS`, `label`, `example_1`, `example_2`
+The dataset is organized into several key directories and files:
 
-Using a custom Python script (`scripts/preprocess_data.py`), the dataset was converted into **JSONL** format for compatibility with common NLP evaluation tools. The script also:
-- Located the **morphologically inflected** form of the word in each sentence using regex-based flexible matching,
-- Recorded the **character positions** (`start1`, `end1`, `start2`, `end2`) for each word form,
-- Added metadata fields like `idx` and `version`.
+1. **`raw_data/`**: Contains the raw, unprocessed entries. These are the initial datasets with word-context pairs.
+   
+2. **`processed_data/`**: This directory holds the cleaned and processed version of the dataset, ready for use in training and evaluation tasks.
+   
+3. **`scripts/`**: A collection of Python scripts used for preprocessing, data analysis, and model evaluation. These scripts automate many tasks, including text cleaning, feature extraction, and dataset formatting.
+   
+4. **`annotators_results/`**: Contains the results of the manual annotation process. It provides insights into the labeling and adjudication process, helping to ensure consistency and accuracy.
+   
+5. **`requirements.txt`**: This file lists the necessary Python packages for running the scripts and models in this repository. It ensures that your environment is properly set up.
 
-## Format (JSONL Example)
+6. **`results_evaluation/`**: Holds the evaluation results for different models tested on the dataset. These results include metrics like **accuracy**, **F1 score**, and **Cohen’s Kappa**, helping to assess the model’s performance.
 
-```json
-{
-  "word": "бас",
-  "sentence1": "Ол үстелдің басында отырды.",
-  "sentence2": "Оның басы ауырды.",
-  "idx": 0,
-  "label": false,
-  "start1": 13,
-  "end1": 20,
-  "start2": 5,
-  "end2": 9,
-  "version": 1.1
-}
-```
+7. **`.env`**: Stores environment-specific variables, such as paths and API keys, used during the data preprocessing and model training phases.
 
-## References
+8. **`.gitignore`**: Specifies which files should be ignored by version control (Git), ensuring that temporary files or sensitive data are not tracked.
 
-- Pilehvar, M.T., & Camacho-Collados, J. (2019). [WiC: The Word-in-Context Dataset for Evaluating Context-Sensitive Meaning Representations](https://aclanthology.org/N19-1128/). *Proceedings of NAACL-HLT 2019.*
-- Oxford Kazakh Dictionary.
-- Sordid.kz Online Word Tool.
-- Almaty Corpus, SketchEngine (Kazakh), Wikipedia (kk), Bilim-all.kz.
+9. **`README.md`**: This file provides an overview of the dataset, its construction process, and the directory structure.
 
-## License and Use
+## Experiment Setup
 
-This dataset is released for **research and educational purposes only**. Please cite the sources above if using this dataset for academic publications or benchmarking tasks.
+The **WiC-Kazakh** dataset was used in a series of experiments to evaluate the performance of different **large language models (LLMs)** in the Kazakh language. The models were assessed on the **Word-in-Context (WiC)** task, where the models needed to determine if the target word’s meaning remained consistent across two different sentences.
+
+### Models Evaluated:
+- **GPT-4**: A state-of-the-art LLM known for its multilingual capabilities.
+- **Gemini 1.5 Pro & Flash**: Another competitive model that emphasizes long-context reasoning and multilingual support.
+- **Llama-3 (via Ollama)**: A more localized model with strong performance in specific languages.
+
+### Experiment Settings:
+- **Zero-shot & Few-shot Prompting**: Models were tested with both zero-shot (no task-specific training) and few-shot (limited examples in prompts) approaches in both **Kazakh** and **English**.
+- **Evaluation Metrics**: The models were evaluated using metrics such as **accuracy**, **F1 score**, and **Cohen’s Kappa** to measure performance in terms of both overall correctness and the balance between precision and recall.
+- **Human Evaluation**: To ensure high-quality annotations, a human evaluation process was employed, including inter-annotator agreement (IAA).
+
+## How to Use
+
+To get started, follow these steps:
+
+1. **Install dependencies**: Run the following command to install the necessary Python packages:
+   ```bash
+   pip install -r requirements.txt

@@ -72,7 +72,7 @@ if __name__ == "__main__":
     # Load Excel
     df = pd.read_excel(excel_path)
 
-    # Column names (adjust if needed)
+    # Column names
     WORD_COL  = "word"
     S1_COL    = "example_1"
     S2_COL    = "example_2"
@@ -88,7 +88,7 @@ if __name__ == "__main__":
             s1 = clean_sentence(row.get(S1_COL, ""))
             s2 = clean_sentence(row.get(S2_COL, ""))
 
-            # labels are 0.0 / 1.0 → cast directly to bool (and sanity-check)
+            # labels are 0.0 / 1.0
             val = float(row.get(LABEL_COL, 0.0))
             if val not in (0.0, 1.0):
                 raise ValueError(f"Unexpected label value at idx {idx}: {val}")

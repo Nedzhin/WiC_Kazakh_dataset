@@ -2,7 +2,7 @@ import pandas as pd
 import os
 from sklearn.metrics import cohen_kappa_score
 
-# Functions to use later
+# functions to use later
 def convert_to_boolean(labels):
     """Convert 'T'/'F' labels to boolean values."""
     for l in labels:
@@ -13,6 +13,7 @@ def convert_to_boolean(labels):
         else:
             raise ValueError(f"Unexpected label: {l}")
 
+# function to load labels
 def load_labels(gold_path, ann1_path, ann2_path):
     """Load gold + annotator labels and convert them to boolean."""
     goldL_file = pd.read_excel(gold_path)
@@ -26,7 +27,7 @@ def load_labels(gold_path, ann1_path, ann2_path):
     return gold_labels, ann1_labels, ann2_labels
 
 def calculate_performance(gold_labels, ann1_labels, ann2_labels, stage="Before"):
-    """Calculate annotator performance vs gold and IAA metrics if before adjudication."""
+    """Calculating annotator performance vs gold and IAA metrics before and after adjudication."""
     # Annotator vs gold
     ann1_perf = sum(g == a for g,a in zip(gold_labels, ann1_labels)) / len(gold_labels)
     ann2_perf = sum(g == a for g,a in zip(gold_labels, ann2_labels)) / len(gold_labels)
@@ -37,7 +38,7 @@ def calculate_performance(gold_labels, ann1_labels, ann2_labels, stage="Before")
     print("Annotator 2 results in percent:", ann2_perf * 100)
     print("Human Eval (average):", (ann1_perf*100 + ann2_perf*100) / 2)
 
-    # If before adjudication → calculate disagreements + IAA
+    # If before adjudication, it will calculate disagreements + IAA
     if stage == "Before":
         disagreement_indexes = []
         annotators_disagreement = []
@@ -58,7 +59,7 @@ def calculate_performance(gold_labels, ann1_labels, ann2_labels, stage="Before")
         print("\nInter-annotator agreement (raw):", iaa_raw * 100, "%")
         print(f"Cohen's kappa: {kappa:.3f}")
 
-# Main function to run the scripts
+# Main function
 if __name__ == "__main__":
     base_dir = os.path.dirname(os.path.abspath(__file__))
 
